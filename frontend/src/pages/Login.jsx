@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const schema = Yup.object().shape({
   username: Yup.string().required("Username is required"),
@@ -42,7 +43,10 @@ const Login = () => {
         .then(function (response) {
           console.log(response)
           if (response.data.token) {
-            console.log("jwt_token", response.data.token);
+            Cookies.set("jwt_token" , response.data.token);
+            return <Navigate to="/dashboard" />
+          } else if (response.data.error){
+            setFormErrors({login : response.data.error})
           }
         })
         .catch(function (error) {
@@ -118,6 +122,9 @@ const Login = () => {
               >
                 Sign in
               </button>
+
+                {formErrors.login && <p className="text-red-500 text-sm animate__animated animate__tada ">{formErrors.login}</p>}
+
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Do you need an account? {""}
                 <Link
