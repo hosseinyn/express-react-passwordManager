@@ -8,6 +8,7 @@ import Home from "./pages/Home"
 import Login from "./pages/Login"
 import Signup from "./pages/Signup"
 import Dashboard from "./pages/Dashboard"
+import Passwords from "./pages/Passwords"
 
 function App() {
   return (
@@ -19,6 +20,9 @@ function App() {
       <Route path="/signup" element={<Signup />} />
       <Route element={<ProtectedRoute />}>
         <Route path="/dashboard" element={<Dashboard />} />
+      </Route>
+      <Route element={<ProtectedRoute />}>
+        <Route path="/passwords" element={<Passwords />} />
       </Route>
     </Routes>
     <Footer />
