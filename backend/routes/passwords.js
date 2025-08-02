@@ -1,6 +1,6 @@
 import express from "express";
 import { verifyJwtToken } from "../middlewares/jwtMiddleware.js";
-import { User , Password } from "../models/models.js"
+import { Password } from "../models/models.js"
 
 let passwords_router = express.Router()
 
@@ -11,6 +11,17 @@ passwords_router.get("/all-passwords" , verifyJwtToken , async function(req , re
         const all_passwords = await Password.findAll({ where: { userName: req.username } });
         if (all_passwords != null){
             res.json({"Passwords" : JSON.stringify(all_passwords, null, 2)})
+        }
+    } catch (error){
+        res.json({"error" : error})
+    }
+})
+
+passwords_router.get("/get-password/:id" , verifyJwtToken , async function(req , res) {
+    try {
+        const passwordObject = await Password.findOne({ where: { id: req.params.id } });
+        if (passwordObject != null){
+            res.json({"Password" : passwordObject})
         }
     } catch (error){
         res.json({"error" : error})

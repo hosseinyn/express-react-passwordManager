@@ -24,24 +24,31 @@ const Passwords = () => {
       confirmButtonText: "Add",
       focusConfirm: false,
       preConfirm: () => {
-        const serviceName = document.getElementById("service").value
-        const passwordValue = document.getElementById("password").value
-        const encryptKey = document.getElementById("key").value
+        const serviceName = document.getElementById("service").value;
+        const passwordValue = document.getElementById("password").value;
+        const encryptKey = document.getElementById("key").value;
         if (!serviceName || !passwordValue || !encryptKey) {
-          Swal.showValidationMessage(`Please enter username and password`);
+          Swal.showValidationMessage(`Enter service,password and encrypt key.`);
         }
-        axios.post("http://localhost:4001/passwords/add-password" , {
-            service: serviceName,
-            encrypted_password: encryptPassword(passwordValue , encryptKey),
-        } , {
-            headers: {
-                Authorization: `${jwt_token}`
+        axios
+          .post(
+            "http://localhost:4001/passwords/add-password",
+            {
+              service: serviceName,
+              encrypted_password: encryptPassword(passwordValue, encryptKey),
+            },
+            {
+              headers: {
+                Authorization: `${jwt_token}`,
+              },
             }
-        }).then(function (response) {
-            handleGetPasswords()
-        }).catch(function (error) {
-            console.log(error)
-        })
+          )
+          .then(function (response) {
+            handleGetPasswords();
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
       },
     });
   };
@@ -88,7 +95,7 @@ const Passwords = () => {
 
       <ul className="flex gap-10 mt-10 mb-30 ms-5 flex-row flex-wrap w-full max-w-screen-md">
         {passwordList.map((password) => (
-          <PasswordComponent title={password.service} link="/" />
+          <PasswordComponent title={password.service} id={password.id} />
         ))}
       </ul>
     </>

@@ -6,7 +6,7 @@ const encryptPassword = (password , key) => {
 }
 
 const decryptPassword = (password , key) => {
-    const decrypted_password = CryptoJS.AES.decrypt(password , key).toString();
+    const decrypted_password = CryptoJS.AES.decrypt(password, key).toString(CryptoJS.enc.Utf8);
     return decrypted_password;
 }
 
