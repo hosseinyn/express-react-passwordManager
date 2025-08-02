@@ -95,7 +95,7 @@ const Passwords = () => {
 
       <ul className="flex gap-10 mt-10 mb-30 ms-5 flex-row flex-wrap w-full max-w-screen-md">
         {passwordList.map((password) => (
-          <PasswordComponent title={password.service} id={password.id} />
+          <PasswordComponent title={password.service} id={password.id} service={password.service} />
         ))}
       </ul>
     </>

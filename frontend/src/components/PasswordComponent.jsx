@@ -1,7 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link } from "react-router-dom";
 import { faRightToBracket , faPencil } from '@fortawesome/free-solid-svg-icons';
-import { decryptPassword } from "../utils/EncryptPassword";
+import { decryptPassword , encryptPassword } from "../utils/EncryptPassword";
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import Cookies from "js-cookie";
@@ -46,13 +45,55 @@ const jwt_token = Cookies.get("jwt_token")
     });
   };
 
+const handleUpdatePassword = async (id , service) => {
+    Swal.fire({
+      title: "Update Password",
+      html: `
+      <p class="text-orange-500">Warning : Don't forget your encrypt key!</p>
+    <input type="password" id="new_password" class="swal2-input" placeholder="Enter new password....">
+    <input type="password" id="key" class="swal2-input" placeholder="Enter new encrypt key....">
+  `,
+      confirmButtonText: "Update",
+      focusConfirm: false,
+      preConfirm: () => {
+        const newPassword = document.getElementById("new_password").value;
+        const encryptKey = document.getElementById("key").value;
+        if (!encryptKey || !newPassword) {
+          Swal.showValidationMessage(`Enter encrypt key and new password.`);
+        }
+        axios
+          .post(
+            "http://localhost:4001/passwords/update-password", {
+                id: id,
+                service: service,
+                new_password: encryptPassword(newPassword , encryptKey),
+            },
+            {
+              headers: {
+                Authorization: `${jwt_token}`,
+              },
+            }
+          )
+          .then(function (response) {
+            Swal.fire({
+              title: "Your password Updated !",
+              icon: "success",
+            });
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      },
+    });
+  };
+
 const PasswordComponent = (props) => {
     return(
         <div className="flex flex-col gap-3 items-center bg-gray-800 min-h-38 min-w-40 rounded-lg pt-4 text-white px-4 py-2 w-fit">
                 <h2 className="text-2xl">{props.title}</h2>
                 <button className="h-8 w-36 rounded-lg bg-green-500 hover:bg-green-700 duration-300 cursor-pointer" onClick={() => handleGetPassword(props.id)}>Watch <FontAwesomeIcon icon={faRightToBracket} className="text-xl" /></button>
 
-                <button className="h-8 w-36 rounded-lg bg-yellow-500 hover:bg-yellow-700 duration-300 cursor-pointer"><Link to={props.link}>Edit <FontAwesomeIcon icon={faPencil} className="text-xl" /></Link></button>
+                <button className="h-8 w-36 rounded-lg bg-yellow-500 hover:bg-yellow-700 duration-300 cursor-pointer" onClick={() => handleUpdatePassword(props.id , props.service)}>Edit <FontAwesomeIcon icon={faPencil} className="text-xl" /></button>
             </div>
     );
 }
