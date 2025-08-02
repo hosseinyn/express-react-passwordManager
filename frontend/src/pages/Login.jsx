@@ -3,16 +3,19 @@ import "../styles/auth.css";
 import { Link } from "react-router-dom";
 import * as Yup from "yup";
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 
 const schema = Yup.object().shape({
-  username: Yup.string().required("Username is required"),
-  password: Yup.string().required("Password is required"),
+  username: Yup.string().required("Username is required").min(4).max(10),
+  password: Yup.string().required("Password is required").min(7).max(20),
 });
 
 const Login = () => {
+
+  const navigate = useNavigate()
+
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -44,7 +47,7 @@ const Login = () => {
           console.log(response)
           if (response.data.token) {
             Cookies.set("jwt_token" , response.data.token);
-            return <Navigate to="/dashboard" />
+            navigate("/dashboard")
           } else if (response.data.error){
             setFormErrors({login : response.data.error})
           }
