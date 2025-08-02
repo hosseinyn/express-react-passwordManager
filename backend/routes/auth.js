@@ -12,7 +12,6 @@ auth_router.use(express.json())
 
 auth_router.post("/register" , async function (req , res){
     let hashed_password = await generatePassword(req.body.password)
-    console.log("hashed password : " , hashed_password)
     try{
         await User.create({
             username : req.body.username,
@@ -64,6 +63,10 @@ auth_router.delete("/delete-account" , verifyJwtToken , async function (req , re
     } catch (error){
         res.json({"error" : error})
     }
+})
+
+auth_router.get("/validate-token" , verifyJwtToken , function (req , res) {
+    res.json({message : "Validated"})
 })
 
 export {auth_router};
