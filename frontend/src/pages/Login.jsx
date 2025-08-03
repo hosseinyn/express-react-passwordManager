@@ -12,6 +12,8 @@ const schema = Yup.object().shape({
   password: Yup.string().required("Password is required").min(7).max(20),
 });
 
+const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+
 const Login = () => {
 
   const navigate = useNavigate()
@@ -43,10 +45,11 @@ const Login = () => {
           username: formData.username,
           password: formData.password,
         })
-        .then(function (response) {
+        .then(async function (response) {
           console.log(response)
           if (response.data.token) {
             Cookies.set("jwt_token" , response.data.token);
+            await delay(500);
             navigate("/dashboard")
           } else if (response.data.error){
             setFormErrors({login : response.data.error})

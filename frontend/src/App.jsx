@@ -11,6 +11,7 @@ import Dashboard from "./pages/Dashboard"
 import Passwords from "./pages/Passwords"
 import ChangePassword from "./pages/ChangePassword"
 import Logout from "./pages/Logout"
+import DeleteAccount from "./pages/DeleteAccount"
 
 function App() {
   return (
@@ -31,6 +32,9 @@ function App() {
       </Route>
       <Route element={<ProtectedRoute />}>
         <Route path="/logout" element={<Logout />} />
+      </Route>
+      <Route element={<ProtectedRoute />}>
+        <Route path="/delete-account" element={<DeleteAccount />} />
       </Route>
     </Routes>
     <Footer />
