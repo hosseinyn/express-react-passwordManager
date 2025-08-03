@@ -3,6 +3,32 @@ import Cookies from "js-cookie";
 import { Outlet, Navigate } from "react-router-dom";
 import axios from "axios";
 
+const useAuthCheck = () => {
+  const [isSignedIn, setIsSignedIn] = useState(null);
+
+  useEffect(() => {
+    const jwt_token = Cookies.get("jwt_token");
+
+    if (!jwt_token) {
+      setIsSignedIn(false);
+      return;
+    }
+
+    axios
+      .get("http://127.0.0.1:4001/auth/validate-token", {
+        headers: { Authorization: `${jwt_token}` },
+      })
+      .then(() => {
+        setIsSignedIn(true);
+      })
+      .catch(() => {
+        setIsSignedIn(false);
+      });
+  }, []);
+
+  return isSignedIn;
+};
+
 const NoSignedInRoute = () => {
   const [authState, setAuthState] = useState("loading");
   const jwt_token = Cookies.get("jwt_token");
@@ -18,7 +44,7 @@ const NoSignedInRoute = () => {
         headers: { Authorization: `${jwt_token}` },
       })
       .then((res) => {
-          setAuthState("authenticated");
+        setAuthState("authenticated");
       })
       .catch(() => {
         setAuthState("unauthorized");
@@ -34,7 +60,7 @@ const NoSignedInRoute = () => {
   }
 
   return <Navigate to="/dashboard" />;
-
 };
+
 
 export default NoSignedInRoute;
