@@ -47,6 +47,8 @@ auth_router.post("/change-password" , verifyJwtToken , async function (req , res
             user.password = new_hashed_password;
             await user.save()
             res.json({"message" : "Password updated successfuly"})
+        } else {
+            res.json({"error" : "Current password is not corrent"})
         }
     } catch (error){
         res.json({"error" : error})

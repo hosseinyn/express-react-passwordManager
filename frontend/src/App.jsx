@@ -9,6 +9,7 @@ import Login from "./pages/Login"
 import Signup from "./pages/Signup"
 import Dashboard from "./pages/Dashboard"
 import Passwords from "./pages/Passwords"
+import ChangePassword from "./pages/ChangePassword"
 
 function App() {
   return (
@@ -23,6 +24,9 @@ function App() {
       </Route>
       <Route element={<ProtectedRoute />}>
         <Route path="/passwords" element={<Passwords />} />
+      </Route>
+      <Route element={<ProtectedRoute />}>
+        <Route path="/change-password" element={<ChangePassword />} />
       </Route>
     </Routes>
     <Footer />
