@@ -1,6 +1,7 @@
 import { BrowserRouter , Routes , Route } from "react-router-dom"
 
 import ProtectedRoute from "./components/ProtectedRoute"
+import NoSignedInRoute from "./components/NoSignedInRoute"
 
 import Header from "./components/Header"
 import Footer from "./components/Footer"
@@ -19,8 +20,12 @@ function App() {
     <Header />
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
+      <Route element={<NoSignedInRoute />}>
+        <Route path="/login" element={<Login />} />
+      </Route>
+      <Route element={<NoSignedInRoute />}>
+        <Route path="/signup" element={<Signup />} />
+      </Route>
       <Route element={<ProtectedRoute />}>
         <Route path="/dashboard" element={<Dashboard />} />
       </Route>
