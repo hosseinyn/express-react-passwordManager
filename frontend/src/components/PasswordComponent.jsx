@@ -11,6 +11,8 @@ import Cookies from "js-cookie";
 
 const jwt_token = Cookies.get("jwt_token");
 
+const apiURL = import.meta.env.VITE_URL;
+
 const handleGetPassword = async (id) => {
   Swal.fire({
     title: "Get Password",
@@ -25,7 +27,7 @@ const handleGetPassword = async (id) => {
         Swal.showValidationMessage(`Enter encrypt key.`);
       }
       axios
-        .get(`http://localhost:4001/passwords/get-password/${id}`, {
+        .get(`${apiURL}/passwords/get-password/${id}`, {
           headers: {
             Authorization: `${jwt_token}`,
           },
@@ -67,7 +69,7 @@ const handleUpdatePassword = async (id, service) => {
       }
       axios
         .post(
-          "http://localhost:4001/passwords/update-password",
+          `${apiURL}/passwords/update-password`,
           {
             id: id,
             service: service,
@@ -104,7 +106,7 @@ const handleDeletePassword = (id) => {
   }).then((result) => {
     if (result.isConfirmed) {
       axios
-        .delete("http://localhost:4001/passwords/delete-password", {
+        .delete(`${apiURL}/passwords/delete-password`, {
           headers: {
             Authorization: `${jwt_token}`,
           },

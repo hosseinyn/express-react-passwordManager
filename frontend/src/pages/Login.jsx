@@ -37,11 +37,13 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const apiURL = import.meta.env.VITE_URL;
+
     try {
       await schema.validate(formData, { abortEarly: false });
       setFormErrors({});
       axios
-        .post("http://localhost:4001/auth/login", {
+        .post(`${apiURL}/auth/login`, {
           username: formData.username,
           password: formData.password,
         })

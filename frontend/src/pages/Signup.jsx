@@ -18,6 +18,8 @@ const Signup = () => {
 
   const navigate = useNavigate()
 
+  const apiURL = import.meta.env.VITE_URL;
+
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -42,7 +44,7 @@ const Signup = () => {
       await schema.validate(formData, { abortEarly: false });
       setFormErrors({});
       axios
-        .post("http://localhost:4001/auth/register", {
+        .post(`${apiURL}/auth/register`, {
           username: formData.username,
           password: formData.password,
         })

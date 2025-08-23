@@ -6,6 +6,8 @@ import axios from "axios";
 const useAuthCheck = () => {
   const [isSignedIn, setIsSignedIn] = useState(null);
 
+  const apiURL = import.meta.env.VITE_URL;
+
   useEffect(() => {
     const jwt_token = Cookies.get("jwt_token");
 
@@ -15,7 +17,7 @@ const useAuthCheck = () => {
     }
 
     axios
-      .get("http://127.0.0.1:4001/auth/validate-token", {
+      .get(`${apiURL}/auth/validate-token`, {
         headers: { Authorization: `${jwt_token}` },
       })
       .then(() => {
@@ -40,7 +42,7 @@ const NoSignedInRoute = () => {
     }
 
     axios
-      .get("http://127.0.0.1:4001/auth/validate-token", {
+      .get(`${apiURL}/auth/validate-token`, {
         headers: { Authorization: `${jwt_token}` },
       })
       .then((res) => {

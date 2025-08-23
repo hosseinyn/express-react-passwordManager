@@ -7,6 +7,8 @@ const ProtectedRoute = () => {
   const [authState, setAuthState] = useState("loading");
   const jwt_token = Cookies.get("jwt_token");
 
+  const apiURL = import.meta.env.VITE_URL;
+
   useEffect(() => {
     if (!jwt_token) {
       setAuthState("unauthorized");
@@ -14,7 +16,7 @@ const ProtectedRoute = () => {
     }
 
     axios
-      .get("http://127.0.0.1:4001/auth/validate-token", {
+      .get(`${apiURL}/auth/validate-token`, {
         headers: { Authorization: `${jwt_token}` },
       })
       .then((res) => {

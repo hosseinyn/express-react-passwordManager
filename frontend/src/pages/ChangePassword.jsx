@@ -25,6 +25,8 @@ const schema = Yup.object().shape({
 const ChangePassword = () => {
   const navigate = useNavigate();
 
+  const apiURL = import.meta.env.VITE_URL;
+
   const [formData, setFormData] = useState({
     current_password: "",
     new_password: "",
@@ -50,7 +52,7 @@ const ChangePassword = () => {
       setFormErrors({});
       await axios
         .post(
-          "http://localhost:4001/auth/change-password",
+          `${apiURL}/auth/change-password`,
           {
             current_password: formData.current_password,
             new_password: formData.new_password,

@@ -10,13 +10,15 @@ const useAuthCheck = () => {
   useEffect(() => {
     const jwt = Cookies.get("jwt_token");
 
+    const apiURL = import.meta.env.VITE_URL;
+
     if (!jwt) {
       setIsSignedIn(false);
       return;
     }
 
     axios
-      .get("http://localhost:4001/auth/validate-token", {
+      .get(`${apiURL}/auth/validate-token`, {
         headers: {
           Authorization: `${jwt}`
         }

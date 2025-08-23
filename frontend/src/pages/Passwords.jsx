@@ -12,6 +12,8 @@ const Passwords = () => {
   const [passwordList, setPasswordList] = useState([]);
   const [isPasswordAvailable, setIsAvailable] = useState(false);
 
+  const apiURL = import.meta.env.VITE_URL;
+
   const handleAddPassword = () => {
     Swal.fire({
       title: "Add Password",
@@ -32,7 +34,7 @@ const Passwords = () => {
         }
         axios
           .post(
-            "http://localhost:4001/passwords/add-password",
+            `${apiURL}/passwords/add-password`,
             {
               service: serviceName,
               encrypted_password: encryptPassword(passwordValue, encryptKey),
@@ -55,7 +57,7 @@ const Passwords = () => {
 
   const handleGetPasswords = async () => {
     await axios
-      .get("http://127.0.0.1:4001/passwords/all-passwords", {
+      .get(`${apiURL}/passwords/all-passwords`, {
         headers: { Authorization: `${jwt_token}` },
       })
       .then((res) => {

@@ -10,6 +10,8 @@ const jwt_token = Cookies.get("jwt_token");
 const DeleteAccount = () => {
   const navigate = useNavigate();
 
+  const apiURL = import.meta.env.VITE_URL;
+
   useEffect(() => {
     Swal.fire({
       title: "Are you sure?",
@@ -22,7 +24,7 @@ const DeleteAccount = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         await axios
-          .delete("http://localhost:4001/auth/delete-account", {
+          .delete(`${apiURL}/auth/delete-account`, {
             headers: {
               Authorization: `${jwt_token}`,
             },
